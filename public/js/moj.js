@@ -21,21 +21,30 @@
 // }
 
 $(document).ready(function () {
-    $('[name="reg_login"]').keypress(function () {
+    $('[name="reg_login"]').keyup(function () {
         var username = $(this).val();
         $.ajax({
             url:"ajax",
             method:"POST",
             data:{user_name:username},
             dataType:"json",
-            success:function (data)
+            success: function (data)
             {
-                // $('[name="reg_login"]').before().html('<label for="inputError2">Input with error</label>');
+                $('[name="reg_login"]').parent().removeClass("has-error has-feedback");
+                $('[name="reg_login"]').parent().addClass("has-success has-feedback");
+                $('#test').replaceWith('<label id="test">'+data.html+'</label>');
+                $('[name="reg_login"]').attr('id', 'inputSuccess2');
+                $('.glyphicon').remove();
+                $('<span class="glyphicon glyphicon-ok form-control-feedback"></span>').insertAfter('[name="reg_login"]');
+            },
+            error: function (data)
+            {
+                $('[name="reg_login"]').parent().removeClass("has-success has-feedback");
                 $('[name="reg_login"]').parent().addClass("has-error has-feedback");
+                $('#test').replaceWith('<label id="test">'+data.html+'dupa'+'</label>');
                 $('[name="reg_login"]').attr('id', 'inputError2');
+                $('.glyphicon').remove();
                 $('<span class="glyphicon glyphicon-remove form-control-feedback"></span>').insertAfter('[name="reg_login"]');
-                // $('[name="reg_login"]').after().html('<span class="glyphicon glyphicon-remove form-control-feedback"></span>');
-
             }
         });
         // alert('dupa');

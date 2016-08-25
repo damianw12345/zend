@@ -143,13 +143,22 @@ class SigninController extends AbstractActionController
 
     public function ajaxAction()
     {
-        $test = $this->params()->fromPost('user_name');
+        $login = $this->params()->fromPost('user_name');
+
+        if($this->table->getUser($login)==null)
+        {
+            return new JsonModel([
+                'success' => true,
+            ]);
+        }
+
+
 
 //        throw new RuntimeException();
 
         return new JsonModel([
-            'success' => true,
-            'html' => '<span>'.$test.'</span>',
+            'success' => false,
+            'html' => '<label id="tesst">'.$login.'pała'.'</label>',
         ]);
     }
 
@@ -174,5 +183,7 @@ class SigninController extends AbstractActionController
         }
         return $uniqid;
     }
+
+
 }
 
