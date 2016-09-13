@@ -149,7 +149,12 @@ class Module implements ConfigProviderInterface
 						$container->get(Model\UserTable::class), $container->get('mail.transport')
 					);
 				},
-                Controller\IndexController::class => InvokableFactory::class,
+                Controller\IndexController::class => function($container)
+                {
+                    return new Controller\IndexController(
+                        $container->get(Model\UserTable::class)
+                    );
+                },
 			],
 		];
 	}

@@ -29,7 +29,8 @@
             "Application\\": "module/Application/src/",
             "Login\\": "module/Login/src/",
             "Logowanie\\": "module/Logowanie/src/",
-            "Signin\\": "module/Signin/src/"
+            "Signin\\": "module/Signin/src/",
+            "Index\\": "module/Index/src"
         }
     },
     "autoload-dev": {

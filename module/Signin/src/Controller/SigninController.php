@@ -12,6 +12,7 @@ use Zend\Mail\Transport\Smtp;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 
 class SigninController extends AbstractActionController
@@ -90,17 +91,21 @@ class SigninController extends AbstractActionController
     public function registrationAction()
     {
 
-        $email = $this->params()->fromPost('email');
-        $username = $this->params()->fromPost('login');
-        $pass = $this->params()->fromPost('pass');
+//        $email = $this->params()->fromPost('email');
+//        $username = $this->params()->fromPost('login');
+//        $pass = $this->params()->fromPost('pass');
 
         $user = new User();
         $user->setEmail($this->params()->fromPost('email'));
-        $user->setUsername($this->params()->fromPost('login'));
+        $user->setUsername($this->params()->fromPost('reg_login'));
         $user->setPassword($this->params()->fromPost('pass'));
         $user->setUserId(0);
 
-        if ( ($this->table->getUserByEmail($email) == null) && ($this->table->getUser($username) == null) )
+//        throw new \Exception(
+//            sprintf("dupa %s %s",$user->getUsername(),$user->getPassword())
+//        );
+
+        if ( ($this->table->getUserByEmail($user->getEmail()) == null) && ($this->table->getUser($user->getUsername()) == null) )
         {
             $uniqid = $this->unigId();
             $user->setActive($uniqid);
@@ -123,8 +128,9 @@ class SigninController extends AbstractActionController
 //            $transport->send();
             $this->smtp->send($message);
         }
-
-        return ['email' => $user->getActive()];
+        return new ViewModel([
+            'email' => $user->getActive()
+        ]);
     }
 
     public function activeAction()
@@ -143,22 +149,33 @@ class SigninController extends AbstractActionController
 
     public function ajaxAction()
     {
-        $login = $this->params()->fromPost('user_name');
+//        $input = $this->params()->fromPost('input_data');
+//        $inputType = $this->params()->fromPost('input_type');
+//        $data = $this->request->getPost();
+        $inputType = $this->params()->fromPost('input_type');
+        $inputData = $this->params()->fromPost('input_data');
 
-        if($this->table->getUser($login)==null)
+
+
+        if ($inputType == 'login')
         {
-            return new JsonModel([
-                'success' => true,
-            ]);
+            if(($this->table->getUser($inputData) == null))
+            {
+                return new JsonModel();
+            }
+        }
+        elseif ($inputType == 'email')
+        {
+
+            if ($this->table->getUserByEmail($inputData) == null)
+            {
+                return new JsonModel();
+            }
         }
 
-
-
-//        throw new RuntimeException();
-
+//        $this->getResponse()->setStatusCode(Response::STATUS_CODE_404);
         return new JsonModel([
-            'success' => false,
-            'html' => '<label id="tesst">'.$login.'pała'.'</label>',
+            'user' => false
         ]);
     }
 
@@ -183,7 +200,5 @@ class SigninController extends AbstractActionController
         }
         return $uniqid;
     }
-
-
 }
 

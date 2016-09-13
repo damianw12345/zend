@@ -22,5 +22,6 @@ return [
 //    'Logowanie',
 //    'Application2',
     'Signin',
-    'DoctrineModule'
+//    'DoctrineModule',
+//    'Index'
 ];

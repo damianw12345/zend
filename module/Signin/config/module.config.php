@@ -24,6 +24,7 @@ return [
                     ],
                 ],
             ],
+
             'index' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -34,6 +35,7 @@ return [
                     ],
                 ],
             ],
+
             'logout' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -74,6 +76,26 @@ return [
                     ],
                 ],
             ],
+            'ajaxIndex' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/ajaxIndex',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'ajaxIndex',
+                    ],
+                ],
+            ],
+            'admin' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/admin',
+                    'defaults' => [
+                        'controller' => Controller\SigninController::class,
+                        'action'     => 'admin',
+                    ],
+                ],
+            ],
         ],
     ],
 
@@ -82,7 +104,7 @@ return [
 //        'remember_me_seconds' => 10,
         'use_cookies' => true,
         'cookie_httponly' => true,
-//        'gc_maxlifetime' => 5,
+        'gc_maxlifetime' => 5,
 //        'cookie_lifetime' => 100,
     ],
 

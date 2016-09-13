@@ -99,4 +99,9 @@ class UserTable
         $this->tableGateway->delete(['user_id' => $user_id]);
     }
 
+    public function deleteUserByName($userName)
+    {
+        $this->tableGateway->delete(['username' => $userName]);
+    }
+
 }
